@@ -17,25 +17,17 @@ export default defineConfig(({ mode }) => ({
   },
 
   plugins: [
-    // https://github.com/alextim/vite-plugin-simple-json-server
-    // https://github.com/alextim/vite-plugin-simple-json-server/tree/main/packages/vite-plugin-simple-json-server
-    jsonServer({
-      disable: mode === `test`,
-    }),
+    jsonServer({ disable: mode === `test` }),
 
     Vue({
       include: [/\.vue$/],
       reactivityTransform: false,
     }),
 
-    vuetify(),
+    vuetify({ autoImport: false }),
 
-    // https://github.com/hannoeru/vite-plugin-pages
-    Pages({
-      extensions: [`vue`],
-    }),
+    Pages({ extensions: [`vue`] }),
 
-    // https://github.com/antfu/unplugin-auto-import
     AutoImport({
       imports: [
         `vue`,
@@ -48,25 +40,21 @@ export default defineConfig(({ mode }) => ({
       dts: `src/auto-imports.d.ts`,
     }),
 
-    // https://github.com/antfu/unplugin-vue-components
     Components({
       dts: `src/components.d.ts`,
-      // Allow subdirectories as namespace prefix for components.
       directoryAsNamespace: true,
       types: [{
         from: `vue-router`,
         names: [`RouterLink`, `RouterView`],
       }],
+      exclude: [/vuetify/] // empêche le plugin de toucher Vuetify qui bloque l'import des components
     }),
 
-    // https://github.com/antfu/unocss
-    // see unocss.config.ts for config
     Unocss(),
   ],
 
-  // https://github.com/vitest-dev/vitest
   test: {
-    include: [`**\/*.spec.ts`],
+    include: [`**/*.spec.ts`],
     environment: `happy-dom`,
     deps: {
       inline: [`@vue`, `@vueuse`, `vuetify`, `loglevel`],
