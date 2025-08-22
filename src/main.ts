@@ -3,8 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import generatedRoutes from 'virtual:generated-pages';
 import { VueQueryPlugin, type VueQueryPluginOptions } from '@tanstack/vue-query';
 
-// vuetify
+// Vuetify
+import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 import './main.scss';
 
 import App from './app.vue';
@@ -16,7 +19,6 @@ const router = createRouter({
   history: createWebHistory(`/`),
   routes: generatedRoutes,
 });
-
 app.use(router);
 
 // Vue Query
@@ -33,13 +35,15 @@ app.use(VueQueryPlugin, vueQueryPluginOptions);
 
 // Vuetify
 app.use(createVuetify({
+  components,
+  directives,
   defaults: {
-    VAlert: { variant: `tonal` },
+    VAlert: { variant: 'tonal' },
     VCard: {
-      VBtn: { variant: `outlined` },
+      VBtn: { variant: 'outlined' },
     },
   },
 }));
 
 // Mount application
-app.mount(`#application`);
+app.mount('#application');
