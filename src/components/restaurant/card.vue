@@ -15,12 +15,15 @@ const { average, formatted, count } = useRestaurantRating(props.restaurant)
     <VImg
       height="100"
       cover
-      :src="restaurant.photos?.[0]"
+      :src="restaurant?.photos?.[0]"
     />
     <VCardTitle>{{ restaurant.name }}</VCardTitle>
 
     <!-- Average rating -->
-    <div v-if="average" class="mx-4 my-2 flex items-center gap-2">
+    <div
+      v-if="average"
+      class="mx-4 my-2 flex items-center gap-2"
+    >
       <VRating
         :model-value="average"
         half-increments
@@ -47,7 +50,11 @@ const { average, formatted, count } = useRestaurantRating(props.restaurant)
     </VCardText>
 
     <VCardActions class="mt-auto">
-      <VBtn color="primary" variant="tonal" :to="`/restaurants/${restaurant.id}`">
+      <VBtn
+        color="primary"
+        variant="tonal"
+        :to="`/restaurants/${restaurant.id}`"
+      >
         See more
       </VBtn>
     </VCardActions>
