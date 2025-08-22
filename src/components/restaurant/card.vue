@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { type Restaurant } from '~/composables/restaurants';
+import { type Restaurant } from '~/composables/restaurants'
+import { useRestaurantRating } from '~/composables/useRestaurantRating'
 
-defineProps<{
+const props = defineProps<{
   restaurant: Restaurant
-}>();
+}>()
+
+// Déstructuration directe → évite de manipuler l’objet rating complet
+const { average, formatted, count } = useRestaurantRating(props.restaurant)
 </script>
 
 <template>
@@ -11,22 +15,40 @@ defineProps<{
     <VImg
       height="100"
       cover
-      :src="restaurant?.photos?.[0]"
+      :src="restaurant.photos?.[0]"
     />
-    <VCardTitle>
-      {{ restaurant?.name }}
-    </VCardTitle>
-    <VAlert variant="tonal" type="warning" class="mx-4 w-1/2">
-      TODO: display the average rating
-      <br>
-      Vuetify has a component for this. Use this one
-    </VAlert>
+    <VCardTitle>{{ restaurant.name }}</VCardTitle>
+
+    <!-- Average rating -->
+    <div v-if="average" class="mx-4 my-2 flex items-center gap-2">
+      <VRating
+        :model-value="average"
+        half-increments
+        readonly
+        color="amber"
+        size="20"
+      />
+      <div class="leading-tight mt-2">
+        <span class="font-semibold text-gray-800">
+          {{ formatted }}
+        </span>
+        <span class="text-sm text-gray-500 ml-2">
+          ({{ count }} avis)
+        </span>
+      </div>
+    </div>
+
+    <div v-else class="mx-4 my-2 text-sm text-gray-500 italic">
+      No reviews yet
+    </div>
+
     <VCardText>
-      <RestaurantLocation :location="restaurant?.location" />
+      <RestaurantLocation :location="restaurant.location" />
     </VCardText>
+
     <VCardActions class="mt-auto">
-      <VBtn color="primary" variant="tonal" :to="`/restaurants/${restaurant?.id}`">
-        see more
+      <VBtn color="primary" variant="tonal" :to="`/restaurants/${restaurant.id}`">
+        See more
       </VBtn>
     </VCardActions>
   </VCard>
