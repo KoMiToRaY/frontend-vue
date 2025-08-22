@@ -36,7 +36,7 @@ const { average, formatted, count } = useRestaurantRating(props.restaurant)
           {{ formatted }}
         </span>
         <span class="text-sm text-gray-500 ml-2">
-          ({{ count }} avis)
+          ({{ count }} reviews)
         </span>
       </div>
     </div>
