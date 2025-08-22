@@ -12,7 +12,7 @@ const { data: restaurants, isError } = useFetchRestaurants();
 
     <div
       v-else-if="restaurants"
-      class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+      class="grid gap-8 lg:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
     >
       <RestaurantCard
         v-for="restaurant of restaurants"

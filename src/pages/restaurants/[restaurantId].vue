@@ -1,17 +1,22 @@
 <script setup lang="ts">
-import { useFetchRestaurant } from '~/composables/restaurants';
+import { useFetchRestaurant } from '~/composables/restaurants'
+import { useRestaurantRating } from '~/composables/useRestaurantRating'
 
-const { params } = useRoute();
-const { data: restaurant, isError } = useFetchRestaurant({ restaurantId: params.restaurantId });
+const { params } = useRoute()
+const { data: restaurant, isError } = useFetchRestaurant({ restaurantId: params.restaurantId })
+
+// rating (null tant que restaurant n’est pas encore chargé)
+const rating = computed(() =>
+  restaurant.value ? useRestaurantRating(restaurant.value) : null
+)
 </script>
 
 <template>
-  <VAlert v-if="isError" type="warning" class="mt-4">
-    TODO: It might be an Fetch error
-    <br>
-    You should fix that
+  <VAlert v-if="isError" type="error" class="mt-4">
+    Une erreur est survenue lors du chargement du restaurant.
+    Vérifie ta connexion ou réessaie plus tard.
   </VAlert>
-  <div v-else class="grid grid-cols-[minmax(0,_1fr)_16rem] gap-6">
+  <div v-else class="grid grid-cols-1 lg:grid-cols-[minmax(0,_1fr)_16rem] gap-6">
     <VCard v-if="restaurant">
       <VImg
         v-for="photo in restaurant.photos"
@@ -24,32 +29,43 @@ const { data: restaurant, isError } = useFetchRestaurant({ restaurantId: params.
         <VCardTitle class="!text-4xl text-white">
           {{ restaurant.name }}
         </VCardTitle>
-        <VAlert variant="flat" type="warning" class="mx-4 inline-block">
-          TODO: display the mean rating
-          <br>
-          Vuetify has a component for this. Use this one
-        </VAlert>
+
+        <!-- Mean rating -->
+        <div
+          v-if="rating"
+          class="mx-4 my-2 flex items-center gap-2 bg-black/50 rounded px-3 py-1 inline-flex"
+        >
+          <VRating
+            :model-value="rating.average.value"
+            half-increments
+            readonly
+            color="amber"
+            size="20"
+          />
+          <span class="text-white font-medium mt-2">
+            {{ rating.formatted }} ({{ rating.count }} avis)
+          </span>
+        </div>
       </VImg>
       <VCardText>
         <div class="grid grid-cols-2 gap-4">
           <RestaurantLocation :location="restaurant.location" />
           <KeyValue icon="mdi-phone">
             <p class="text-body-1">
-              {{ restaurant.phone }}
-              <VAlert type="warning">
-                ↑ TODO: we would like to display the formatted phone
-              </VAlert>
+              {{ restaurant.display_phone || restaurant.phone }}
             </p>
           </KeyValue>
         </div>
       </VCardText>
     </VCard>
+
     <aside>
-      <VAlert type="warning">
-        TODO: this should go under the company card on small device
-      </VAlert>
       <ul class="pa-0">
-        <RestaurantReview />
+        <RestaurantReview
+          v-for="review in restaurant.reviews"
+          :key="review.id"
+          :review="review"
+        />
       </ul>
     </aside>
   </div>
