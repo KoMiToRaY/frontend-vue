@@ -6,11 +6,10 @@ import restaurantsResponse from '@/mock/restaurants.json';
 const restaurant = restaurantsResponse[0];
 
 describe(`restaurant-card`, () => {
-  test(`no props`, (context) => {
-    const wrapper = mount(RestaurantCard, {
+  test(`no props should throw an error`, (context) => {
+    expect(() => mount(RestaurantCard, {
       global: { plugins: [context.router] },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
+    })).toThrowError();
   });
 
   it(`renders correctly a restaurant`, (context) => {

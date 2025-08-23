@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const ratingFilterItems = [
-  { title: 'all restaurants', value: 0 },
-  { title: '5 stars', value: 5 },
-  { title: '4 stars or more', value: 4 },
-  { title: '3 stars or more', value: 3 },
-  { title: '2 stars or more', value: 2 },
-  { title: '1 star or more', value: 1 },
-]
+  { title: `all restaurants`, value: 0 },
+  { title: `5 stars`, value: 5 },
+  { title: `4 stars or more`, value: 4 },
+  { title: `3 stars or more`, value: 3 },
+  { title: `2 stars or more`, value: 2 },
+  { title: `1 star or more`, value: 1 },
+];
 
-// 👇 définit le v-model
-const modelValue = defineModel<number>({ default: 0 })
+const modelValue = defineModel<number>({ default: 0 });
 </script>
 
 <template>

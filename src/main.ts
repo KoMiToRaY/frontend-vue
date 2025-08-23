@@ -38,12 +38,12 @@ app.use(createVuetify({
   components,
   directives,
   defaults: {
-    VAlert: { variant: 'tonal' },
+    VAlert: { variant: `tonal` },
     VCard: {
-      VBtn: { variant: 'outlined' },
+      VBtn: { variant: `outlined` },
     },
   },
 }));
 
 // Mount application
-app.mount('#application');
+app.mount(`#application`);

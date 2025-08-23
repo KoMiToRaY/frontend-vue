@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useFetchRestaurant } from '~/composables/restaurants'
-import { useRestaurantRating } from '~/composables/useRestaurantRating'
+import { useFetchRestaurant } from '~/composables/restaurants';
+import { useRestaurantRating } from '~/composables/useRestaurantRating';
 
-const { params } = useRoute()
-const { data: restaurant, isError } = useFetchRestaurant({ restaurantId: params.restaurantId })
+const { params } = useRoute();
+const { data: restaurant, isError } = useFetchRestaurant({ restaurantId: params.restaurantId });
 
 // rating (null tant que restaurant n’est pas encore chargé)
 const rating = computed(() =>
-  restaurant.value ? useRestaurantRating(restaurant.value) : null
-)
+  restaurant.value ? useRestaurantRating(restaurant.value) : null,
+);
 </script>
 
 <template>
@@ -16,6 +16,7 @@ const rating = computed(() =>
     Une erreur est survenue lors du chargement du restaurant.
     Vérifie ta connexion ou réessaie plus tard.
   </VAlert>
+
   <div v-else class="grid grid-cols-1 lg:grid-cols-[minmax(0,_1fr)_16rem] gap-6">
     <VCard v-if="restaurant">
       <VImg
@@ -47,6 +48,7 @@ const rating = computed(() =>
           </span>
         </div>
       </VImg>
+
       <VCardText>
         <div class="grid grid-cols-2 gap-4">
           <RestaurantLocation :location="restaurant.location" />
@@ -59,10 +61,10 @@ const rating = computed(() =>
       </VCardText>
     </VCard>
 
-    <aside>
+    <aside v-if="restaurant">
       <ul class="pa-0">
         <RestaurantReview
-          v-for="review in restaurant.reviews"
+          v-for="review in restaurant?.reviews || []"
           :key="review.id"
           :review="review"
         />

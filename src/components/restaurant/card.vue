@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { type Restaurant } from '~/composables/restaurants'
-import { useRestaurantRating } from '~/composables/useRestaurantRating'
+import { type Restaurant } from '~/composables/restaurants';
+import { useRestaurantRating } from '~/composables/useRestaurantRating';
 
 const props = defineProps<{
   restaurant: Restaurant
-}>()
+}>();
 
 // Déstructuration directe → évite de manipuler l’objet rating complet
-const { average, formatted, count } = useRestaurantRating(props.restaurant)
+const { average, formatted, count } = useRestaurantRating(props.restaurant);
 </script>
 
 <template>
@@ -17,6 +17,7 @@ const { average, formatted, count } = useRestaurantRating(props.restaurant)
       cover
       :src="restaurant?.photos?.[0]"
     />
+
     <VCardTitle>{{ restaurant.name }}</VCardTitle>
 
     <!-- Average rating -->
@@ -45,7 +46,7 @@ const { average, formatted, count } = useRestaurantRating(props.restaurant)
       No reviews yet
     </div>
 
-    <VCardText>
+    <VCardText v-if="restaurant.location">
       <RestaurantLocation :location="restaurant.location" />
     </VCardText>
 
