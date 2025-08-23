@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => ({
         from: `vue-router`,
         names: [`RouterLink`, `RouterView`],
       }],
-      exclude: [/vuetify/] // empêche le plugin de toucher Vuetify qui bloque l'import des components
+      exclude: [/vuetify/], // empêche le plugin de toucher Vuetify qui bloque l'import des components
     }),
 
     Unocss(),

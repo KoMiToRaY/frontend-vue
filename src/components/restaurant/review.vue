@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type Review } from '~/composables/restaurants'
+import { type Review } from '~/composables/restaurants';
 
 defineProps<{
   review: Review
-}>()
+}>();
 </script>
 
 <template>
