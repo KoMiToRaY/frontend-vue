@@ -1,9 +1,18 @@
-// import { mount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
+import RestaurantReview from './review.vue';
+import restaurantsResponse from '@/mock/restaurants.json';
 
-// import RestaurantReview from './review.vue';
+const review = restaurantsResponse[0].reviews[0];
 
 describe(`restaurant-review`, () => {
-  test.todo(`no props`);
+  test(`no props should throw an error`, () => {
+    expect(() => mount(RestaurantReview)).toThrowError();
+  });
 
-  it.todo(`renders a review`);
+  it(`renders a review`, () => {
+    const wrapper = mount(RestaurantReview, {
+      props: { review },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
 });
